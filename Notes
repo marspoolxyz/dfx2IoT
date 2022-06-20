@@ -1,0 +1,23 @@
+/*************************************************************/
+  master_iot
+  hjhxd-tqaaa-aaaaf-qaeja-cai
+  "stage0_finance": {
+    "ic": "hjhxd-tqaaa-aaaaf-qaeja-cai"
+  },
+  
+  "stage0_finance": {
+    "main": "src/stage0_icp_bunny/Finance.mo",  
+     "type": "motoko"
+  },   
+/*************************************************************/
+  slave_iot
+  e6v3r-ciaaa-aaaaf-qaebq-cai
+  "stage0_icpbunny_storage": {
+    "ic": "e6v3r-ciaaa-aaaaf-qaebq-cai"
+  },
+ 
+  "stage0_icpbunny_storage": {
+      "main": "src/stage0_icp_bunny/storage.mo",
+      "type": "motoko"
+  }, 
+/*************************************************************/

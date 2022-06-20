@@ -1,0 +1,87 @@
+type StreamingStrategy = variant {
+                           Callback:
+                            record {
+                              callback:
+                               func (StreamingCallbackToken) ->
+                                (StreamingCallbackResponse) query;
+                              token: StreamingCallbackToken;
+                            };};
+type StreamingCallbackToken = 
+ record {
+   content_encoding: text;
+   index: nat;
+   key: text;
+   sha256: opt blob;
+ };
+type StreamingCallbackResponse = 
+ record {
+   body: blob;
+   token: opt StreamingCallbackToken;
+ };
+type ICPTs = record {e8s: nat64;};
+type HttpResponse_2 = 
+ record {
+   body: blob;
+   headers: vec HeaderField;
+   status_code: nat16;
+   streaming_strategy: opt StreamingStrategy;
+ };
+type HttpResponse = HttpResponse_2;
+type HttpRequest_2 = 
+ record {
+   body: blob;
+   headers: vec HeaderField;
+   method: text;
+   url: text;
+ };
+type HttpRequest = HttpRequest_2;
+type HeaderField = 
+ record {
+   text;
+   text;
+ };
+service : {
+  acceptCycles: () -> ();
+  addData: (text) -> ();
+  availableCycles: () -> (nat) query;
+  claimedPrincipal: () -> ();
+  convertToArray: () -> (nat) query;
+  getAccountBalance: (text) -> (ICPTs);
+  getAccountIndex: (principal) -> (opt nat) query;
+  getAll: () -> (vec record {
+                       nat;
+                       text;
+                     }) query;
+  getAllOwners: () -> (vec record {
+                             principal;
+                             nat;
+                           }) query;
+  getAllPrincipal: () -> (vec record {
+                                principal;
+                                nat;
+                              }) query;
+  getClaimedPrincipal: (nat) -> (principal, nat) query;
+  getDebug: () -> (text) query;
+  getDiscountPrice: () -> (nat64) query;
+  getNormalPrice: () -> (nat64) query;
+  getPrice: () -> (nat64);
+  getPunkPrice: () -> (nat64) query;
+  getPunks: (principal) -> (vec nat);
+  get_cycles: () -> (nat) query;
+  http_request: (HttpRequest) -> (HttpResponse) query;
+  isClaimed: (principal) -> (bool) query;
+  isPunkHolderClaimed: (principal) -> (bool) query;
+  owner_of: (nat) -> (principal) query;
+  removeData: (nat) -> (opt text);
+  resetDebug: () -> (text);
+  savePrincipal: (principal) -> ();
+  searchData: (nat) -> (opt text) query;
+  setDiscount: (nat64) -> (nat64);
+  setPrice: (nat64) -> (bool);
+  set_ledger_canister_id: (opt principal) -> (bool);
+  set_owner: (principal) -> (bool);
+  sizeData: () -> (nat) query;
+  wallet_receive: () -> (record {accepted: nat64;});
+  whiteListNow: (principal) -> ();
+  whitelistCount: () -> (nat) query;
+}

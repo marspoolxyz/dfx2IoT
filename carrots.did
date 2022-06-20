@@ -1,0 +1,121 @@
+type User = 
+ variant {
+   address: AccountIdentifier;
+   "principal": principal;
+ };
+type TransferResponse_2 = Result;
+type TransferResponse = TransferResponse_2;
+type TransferRequest_2 = 
+ record {
+   amount: Balance;
+   from: User;
+   memo: Memo;
+   notify: bool;
+   subaccount: opt SubAccount;
+   to: User;
+   token: TokenIdentifier;
+ };
+type TransferRequest = TransferRequest_2;
+type TokenIdentifier_2 = TokenIdentifier;
+type TokenIdentifier = text;
+type SubAccount_2 = vec nat8;
+type SubAccount = SubAccount_2;
+type Result_4 = 
+ variant {
+   err: CommonError_2;
+   ok: Balance;
+ };
+type Result_3 = 
+ variant {
+   err: CommonError;
+   ok: Metadata;
+ };
+type Result_2 = 
+ variant {
+   err: CommonError;
+   ok: Balance_2;
+ };
+type Result = 
+ variant {
+   err:
+    variant {
+      CannotNotify: AccountIdentifier;
+      InsufficientBalance;
+      InvalidToken: TokenIdentifier;
+      Other: text;
+      Rejected;
+      Unauthorized: AccountIdentifier;
+    };
+   ok: Balance;
+ };
+type Metadata_2 = 
+ variant {
+   fungible:
+    record {
+      decimals: nat8;
+      metadata: opt blob;
+      name: text;
+      symbol: text;
+    };
+   nonfungible: record {metadata: opt blob;};
+ };
+type Metadata = Metadata_2;
+type Memo = blob;
+type Extension_2 = text;
+type Extension = Extension_2;
+type CommonError_2 = 
+ variant {
+   InvalidToken: TokenIdentifier;
+   Other: text;
+ };
+type CommonError = CommonError_2;
+type Balance_2 = Balance;
+type BalanceResponse_2 = Result_4;
+type BalanceResponse = BalanceResponse_2;
+type BalanceRequest_2 = 
+ record {
+   token: TokenIdentifier;
+   user: User;
+ };
+type BalanceRequest = BalanceRequest_2;
+type Balance = nat;
+type AccountIdentifier_3 = AccountIdentifier;
+type AccountIdentifier_2 = text;
+type AccountIdentifier = AccountIdentifier_2;
+service : {
+  acceptCycles: () -> ();
+  availableCycles: () -> (nat) query;
+  balance: (BalanceRequest) -> (BalanceResponse) query;
+  balance_of: (principal) -> (nat) query;
+  burnCarrots: () -> (nat);
+  carrotTransfer: (TransferRequest) -> (TransferResponse);
+  claimCarrots: () -> (nat);
+  claimFor: (principal) -> (nat);
+  claimStartDate: () -> (text);
+  claimTokenCarrots: (nat) -> (nat);
+  disableTransfer: () -> (bool);
+  enableTransfer: () -> (bool);
+  extensions: () -> (vec Extension) query;
+  getDebug: () -> (text) query;
+  getOwner: () -> (principal) query;
+  getOwners: () -> (vec record {
+                          AccountIdentifier_3;
+                          Balance_2;
+                        });
+  holders: () -> (nat) query;
+  maxsupply: () -> (nat);
+  metadata: (TokenIdentifier_2) -> (Result_3) query;
+  registry: () -> (vec record {
+                         AccountIdentifier_3;
+                         Balance_2;
+                       }) query;
+  resetClaim: () -> (text);
+  resetDebug: (nat) -> (text);
+  supply: (TokenIdentifier_2) -> (Result_2) query;
+  testClaim: () -> (text);
+  totalsupply: () -> (nat) query;
+  transfer: (TransferRequest) -> (TransferResponse);
+  walletTransfer: (nat, text) -> (text);
+  wallet_balance: () -> (nat) query;
+  wallet_receive: () -> (record {accepted: nat64;});
+}
